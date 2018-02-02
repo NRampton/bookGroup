@@ -1,0 +1,96 @@
+Normal book groups are great—everybody gets together and talks about a book they've read in common. But it's a big commitment. I've got a lot of books I want to read, and someone else's suggestion may not be what I’m looking for. How about a book group where everybody gets together to talk about whatever they hell they’ve been reading. It’s more like giving informal book reports to a bunch of friends.
+This would be best implemented inside an existing social network. I don’t see a lot of people flocking to a new SN just on this premise. I don’t think this would really be a viable app outside of what I’m doing at the Dojo. But the concept is exciting to me, and I’d like to build it.
+
+Anyone can sign up for an account, anyone can invite anyone else to join. (How? Via email? Don’t wanna hang onto anyone’s email if they don’t want us to. What are the implications of that for site security? How do we protect against malicious accounts?)
+This is all face-to-face; there are no online discussion forums. It’s about getting into the same room with someone. And yes, this feels kind of like how a robot would do this sort of thing if it were trying to learn to love like a human, but whatever. That’s basically what’s happening.
+
+Over the next couple of weeks I’ll be looking at what would actually be involved in creating something like this, so as of today (Oct. 28) this is all very inchoate. We’ll see what happens next, what features it would be feasible to implement on what time scale, etc. But I like the overall idea as a concept to shoot for.
+
+
+******************************** Jan 30
+
+Okay, now I know what the hell I'm doing, let's do it.
+Spring is the most recent thing I've got, so let's go ahead and build this in Java/Spring. I'd love to implement the idea in MEAN for the sake of practice, but we'll get to that next. Right now I'd just love to get this thing up, running, and looking halfway decent.
+
+So, core functionality: I want people to be able to sign up, and create lists of books. Each book has many users attached to it, and each user has many books. The books have many tags, and the tags pertain to many books. I'd like to incorporate a way for people to leave messages about why they're interested in reading a certain book. It would be optional, but might help spark conversation and help people feel more comfortable with what they're getting into. Would also be nice to have an internal messaging system so people don't have to worry about where their email address is going or what it's doing. It's just for password recovery, really. People can delete the messages to them, or reply to messages. (Add at index 0!)
+
+
+User:
+  username
+  password
+  location (rough, though geography will be one of the first advanced functionalities to add)
+  List<Book>
+  List<Group>
+  Other interests, bio (String)
+  email
+  List<Thread>
+
+Book:
+  Title
+  List<Tag>
+  Author
+  List<Blurb>
+  List<User>
+
+Tag:
+  text
+  List<Book>
+
+Group:
+  List<User>
+  time
+  date (validate for future)
+
+Thread:
+	List<User>
+	List<Message>
+	
+Message:
+	test
+	User
+
+
+
+We need to decide how the overall list of books is going to be handled. There needs to be a master list of books, from which the user can draw books 
+they're interested in, but how are we populating that list, and how do we make sure it isn't populated with garbage? Validating input here is going
+to be a bit of a problem...
+So we leave that for later. For now, the "add a book to your list" link will go to a table of all the books. We handle search later--for now each entry 
+in that table has a link to add it to the currentUser's list. Then there will be a link at the top of that page to add another book to the master list.
+So books only go to the user's list from the master list.
+
+Now, the idea of proposing a reading group. I've had the idea that this is for relatively ephemeral, goal-oriented reading groups. I want to read this 
+one book, but I'm not looking to make friends. But that totally misunderstands what people want. This is a social network. Its goal is to help people
+connect with other people, using the fact that they all want to read this book. I want to hear what other people have to say about this book, because
+I believe that will help me get more out of it, and also enhance some relationships with other people.
+
+I'm not interested in signing up for a book group, reading the book, then discovering that everyone else who read that book is an asshole. Maybe part of
+that is on the organizer of the book group, setting out the tone and goals of the group. Why do you want to read this book? What are you hoping to get 
+out of its discussion in a group? Is there a way to prompt the host to make that sort of thing more explicit? The group creation form could as for
+that specifically. Nothing wrong with being a little more verbose on the form--these people are readers by self-selection.
+
+
+As far as the groups, here's what I'm currently thinking: Instead of creating a separate invitation class for the invites to the group, we keep track
+of who's invited and who's going with fields on the Group class. There's no owner or host for a group--anybody can start one, sign on to one, change the
+location, etc. Join a group, leave a group, start a new group--it's all open. The only thing is to make sure people move from the invitees to the attendees
+list.
+That's another issue, though: one user should be able to invite others to a group, so we need to display a user's pending invites on the page, with options
+to attend or not. Dashboard should include groups to which a user is invited, with links to join or decline. Either will remove the user from the list
+of invitees; one will move them to the attendees list, the other won't.
+The downside of this architectural decision is that it doesn't track who has invited whom. You've been invited because you're on the list, but you don't
+get to know who put you on that list unless they tell you.
+As long as we're mucking about with the model, we could also include a list of users who have declined to attend, so that they don't get invited a whole
+lot to events they've indicated they won't attend.
+How do we handle these relationships on the ERD? Attendees is a many-to-many, right? One user can plan to attend many events, and any event will have 
+many attendees (one hopes). Same with invitees. Also non-attenders--one group can have multiple people who've decided not to attend, while any one person
+can indicate that they won't be able to attend multiple events. So that makes three many-to-many relationships between users and groups. Cool.
+
+This is starting to take up more visual real-estate than I'd thought. If organizing this sort of thing is the main purpose of the app, then the groups
+thing should probably hold pride of place on the dashboard, leaving things like your list of books and (eventually) messaging options to secondary
+pages linked from the dashboard.
+
+As far as group creation goes, we're going to have to store a tentative group object in session while we handle populating the list of invitees, then 
+do a final submission for the form as a whole. Also, don't forget to clear out that session attribute once the final form is submitted.
+
+********************************** Outstanding problems/to-do
+Admin should be the only one who can: delete books from the master list
+

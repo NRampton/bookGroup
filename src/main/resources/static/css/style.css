@@ -1,0 +1,97 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+a:visited {
+	color: black;
+}
+
+h3 {
+	line-height: 50px;
+}
+
+p {
+	line-height: 30px;
+}
+
+td {
+	padding: 0 20px;
+	text-align: center;
+}
+
+table {
+	border: 1px solid silver;
+	margin-top: 10px;
+}
+
+thead {
+	background-color: antiquewhite;
+}
+
+th {
+	font-weight: 200;
+	padding: 0 20px;
+}
+
+button {
+	margin-top: 3%;
+	padding: 3px 8px;;
+	border-radius: 5px;
+}
+
+.errors {
+	color: brickred;
+}
+
+#upper, #admin_links {
+	display: inline-block;
+	vertical-align: top;
+	width: 40%;
+	margin-right: 30px;
+}
+
+#wrapper {
+	width: 85vw;
+	margin: 5% auto;
+}
+
+#login, #register {
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 8%;
+}
+
+#motto {
+	color: silver;
+}
+
+.aside {
+	color: silver;
+	font-size: 0.9rem;
+}
+
+.tag_box {
+	width: 300px;
+}
+
+.table_link {
+	text-decoration: none;
+	color: black;
+}
+
+#groups, #messages, {
+	width: 40%;
+	display: inline-block;
+	padding-top: 40px;
+}
+
+#messages {
+	margin-left: 40px;
+}
