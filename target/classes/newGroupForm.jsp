@@ -8,16 +8,15 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Index</title>
+		<title>${newGroup.subjectBook.title}</title>
 		<link rel="stylesheet" type="text/css" href="/css/style.css">	
 		<script src="/js/main.js"></script>
 	</head>
 
 	<body>
 		<div id="wrapper">
-			<h1>Create a new book group</h1>
-			<form:form method="POST" action="/groups/createStageOne" modelAttribute="newGroup">
-				<form:hidden path="subjectBook" value="${book}"/>
+			<h1>Let's read <em>${newGroup.subjectBook.title}!</em></h1>
+			<form:form method="POST" action="/groups/createStageOne" modelAttribute="newGroupAddl">
 				<p>
 					<form:label path="name">Group name: 
 						<form:input path="name"></form:input>
@@ -35,7 +34,7 @@
 						</p>
 					</form:label>
 				</p>
-				<p>
+				<%-- <p>
 					<form:label path="date">Date: 
 						<form:input type="date" path="date"></form:input>
 						<p>
@@ -50,7 +49,7 @@
 							<form:errors path="time"></form:errors>
 						</p>
 					</form:label>
-				</p>
+				</p> --%>
 			<p><button type="submit">Create group</button></p>
 			<p class="aside">You'll have a chance to invite other users on the next page...</p>
 			<p class="aside">Because if it's just you, you know, it's not really a "group."</p>

@@ -49,4 +49,8 @@ public class UserService {
 		return (List<User>) _ur.findAll();
 	}
 	
+	public List<User> getUsersWithExclusions(List<User> invitees) {
+		return (List<User>) _ur.getUsersWithExclusions(invitees);
+	}
+	
 }

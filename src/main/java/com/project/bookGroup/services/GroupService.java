@@ -43,4 +43,10 @@ public class GroupService {
 		newGroup.setInvitees(inviteesList);
 		return newGroup;
 	}
+	
+	public Group stageOneMerge(Group newGroup, Group supplement) {
+		newGroup.setName(supplement.getName());
+		newGroup.setLocation(supplement.getLocation());
+		return newGroup;
+	}	
 }
